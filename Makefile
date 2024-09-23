@@ -1,16 +1,20 @@
-SUBDIRS = libmysyslog libmysyslog-text libmysyslog-json libmysyslog-client libmysyslog-daemon
+CC = gcc
+CFLAGS = -Wall -Wextra -fPIC
+TARGET = libmysyslog-text.so
 
-all:
-	@for dir in $(SUBDIRS); do \
-		$(MAKE) -C $$dir; \
-	done
+all: $(TARGET)
+
+$(TARGET): libmysyslog-text.o
+        $(CC) -shared -o $(TARGET) libmysyslog-text.o
+
+libmysyslog-text.o: libmysyslog-text.c
+        $(cc) $(CFLAGS) -c libmysyslog-text.c
 
 clean:
-	@for dir in $(SUBDIRS); do \
-                $(MAKE) -C $$dir clean; \
-        done
+        rm -f $(TARGET) *.o
 
 .PHONY: all clean
+
 
 
 
